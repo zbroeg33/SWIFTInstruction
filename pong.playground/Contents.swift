@@ -1,5 +1,6 @@
 import SpriteKit
 import PlaygroundSupport
+import UIKit
 // Declare some global constants
 class ExampleClass {
     
@@ -12,11 +13,17 @@ class ExampleClass {
     }
 }
 
+class racketClass {
+    
+    var color: SKColor! //= SKColor.red
+    var radius: CGFloat! //= 20 as CGFloat
+    //let shape = SKShapeNode(circleOfRadius: radius)
+    init(color: SKColor, radius: CGFloat) {
+        self.color = color
+        self.radius = radius
+    }
+}
 
-let width = 400 as CGFloat
-let height = 600 as CGFloat
-let racketHeight = 150 as CGFloat
-let ballRadius = 20 as CGFloat
 
 // Three types of collision objects possible
 enum CollisionTypes: UInt32 {
@@ -32,6 +39,11 @@ enum Direction: Int{
     case Down = 2
 }
 
+let width = 400 as CGFloat
+let height = 600 as CGFloat
+let racketHeight = 150 as CGFloat
+let ballRadius = 20 as CGFloat
+
 // SpriteKit scene
 class gameScene: SKScene, SKPhysicsContactDelegate {
     let racketSpeed = 500.0
@@ -43,6 +55,8 @@ class gameScene: SKScene, SKPhysicsContactDelegate {
     var racket: SKShapeNode?
     var ball: SKShapeNode?
     let scoreLabel = SKLabelNode()
+    let rectLabel = SKLabelNode()
+    let circLabel = SKLabelNode()
     
     // Initialize objects during first start
     override func sceneDidLoad() {
@@ -52,13 +66,30 @@ class gameScene: SKScene, SKPhysicsContactDelegate {
         scoreLabel.position = CGPoint(x: width/2, y: height - 100)
         self.addChild(scoreLabel)
         
+      
+        
         createWalls()
         createBall(position: CGPoint(x: width / 2, y: height / 2))
         createRacket()
         startNewGame()
         self.physicsWorld.contactDelegate = self
     }
-    
+    // Create the racket sprite
+    func createRacket() {
+        let exampleInstance = racketClass(color: SKColor.yellow, radius: 20 as CGFloat)
+        
+        let physicsBody = SKPhysicsBody(circleOfRadius: exampleInstance.radius)
+        racket = SKShapeNode(circleOfRadius: exampleInstance.radius)
+        self.addChild(racket!)
+        racket!.fillColor = SKColor.yellow
+        
+        physicsBody.affectedByGravity = false
+        physicsBody.isDynamic = false
+        physicsBody.collisionBitMask = CollisionTypes.Ball.rawValue
+        physicsBody.categoryBitMask = CollisionTypes.Racket.rawValue
+        physicsBody.contactTestBitMask = CollisionTypes.Ball.rawValue
+        racket!.physicsBody = physicsBody
+    }
     
     // Create the ball sprite
     func createBall(position: CGPoint) {
@@ -103,53 +134,68 @@ class gameScene: SKScene, SKPhysicsContactDelegate {
         return physicsBody
     }
     
-    // Create the racket sprite
-    func createRacket() {
-        racket =  SKShapeNode(rect: CGRect(origin: CGPoint.zero, size: CGSize(width: ballRadius, height: racketHeight)))
-        self.addChild(racket!)
-        racket!.fillColor = SKColor.white
-        let physicsBody = SKPhysicsBody(rectangleOf: racket!.frame.size, center: CGPoint(x: racket!.frame.midX, y: racket!.frame.midY))
-        physicsBody.affectedByGravity = false
-        physicsBody.isDynamic = false
-        physicsBody.collisionBitMask = CollisionTypes.Ball.rawValue
-        physicsBody.categoryBitMask = CollisionTypes.Racket.rawValue
-        physicsBody.contactTestBitMask = CollisionTypes.Ball.rawValue
-        racket!.physicsBody = physicsBody
-    }
+ 
     
     // Start a new game
     func startNewGame() {
         score = 0
         scoreLabel.text = "0"
+         var rectbutton: SKNode! = nil
+        rectbutton = SKSpriteNode(color: SKColor.red, size: CGSize(width: 100, height: 44))
+        rectbutton.position = CGPoint(x:width / 2, y:height / 2);
+        self.addChild(rectbutton)
+        
+        rectLabel.text = " rectangle Paddle"
+        rectLabel.fontSize = 14
+        rectLabel.position = CGPoint(x: width/2, y: height/2)
+        self.addChild(rectLabel)
+        
+        
+        
+        var circbutton: SKNode! = nil
+        circbutton = SKSpriteNode(color: SKColor.blue, size: CGSize(width: 100, height: 44))
+        circbutton.position = CGPoint(x:width / 2, y:height / 2 + 50);
+        circLabel.text = "Circle Paddle"
+        
+        
+        self.addChild(circbutton)
+        
+        circLabel.fontSize = 14
+        circLabel.position = CGPoint(x: width/2, y: height/2 + 50)
+        self.addChild(circLabel)
         racket!.position = CGPoint(x: width - ballRadius * 2, y: height / 2)
         
-        var counter = 3
-        let startLabel = SKLabelNode(text: "Game Over")
-        startLabel.position = CGPoint(x: width / 2, y: height / 2)
-        startLabel.fontSize = 160
-        self.addChild(startLabel)
         
-        // Animated countdown
-        let fadeIn = SKAction.fadeIn(withDuration: 0.5)
-        let fadeOut = SKAction.fadeOut(withDuration: 0.5)
-        startLabel.text = "3"
-        startLabel.run(SKAction.sequence([fadeIn, fadeOut]), completion: {
-            startLabel.text = "2"
-            startLabel.run(SKAction.sequence([fadeIn, fadeOut]), completion: {
-                startLabel.text = "1"
-                startLabel.run(SKAction.sequence([fadeIn, fadeOut]), completion: {
-                    startLabel.text = "0"
-                    startLabel.run(SKAction.sequence([fadeIn, fadeOut]), completion: {
-                        startLabel.removeFromParent()
-                        self.gameRunning = true
-                        self.ball!.position = CGPoint(x: 30, y: height / 2)
-                        self.addChild(self.ball!)
-                    })
-                })
-            })
-        })
+        var counter = 3
+
     }
     
+    func continueGame() {
+                let startLabel = SKLabelNode(text: "Game Over")
+                startLabel.position = CGPoint(x: width / 2, y: height / 2)
+                startLabel.fontSize = 160
+                self.addChild(startLabel)
+        
+        // Animated countdown
+                let fadeIn = SKAction.fadeIn(withDuration: 0.5)
+                let fadeOut = SKAction.fadeOut(withDuration: 0.5)
+                startLabel.text = "3"
+                startLabel.run(SKAction.sequence([fadeIn, fadeOut]), completion: {
+                    startLabel.text = "2"
+                    startLabel.run(SKAction.sequence([fadeIn, fadeOut]), completion: {
+                        startLabel.text = "1"
+                        startLabel.run(SKAction.sequence([fadeIn, fadeOut]), completion: {
+                            startLabel.text = "0"
+                            startLabel.run(SKAction.sequence([fadeIn, fadeOut]), completion: {
+                                startLabel.removeFromParent()
+                                self.gameRunning = true
+                                self.ball!.position = CGPoint(x: 30, y: height / 2)
+                                self.addChild(self.ball!)
+                            })
+                        })
+                    })
+                })
+    }
     // Handle touch events to move the racket
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
