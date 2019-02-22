@@ -206,12 +206,12 @@ public class MainScene: SKScene {
         addChild(button)
         
         
-        addLinewiseEmojiElements()
+        //addLinewiseEmojiElements()
         
     }
     
     //Function to add Emojis in the Initial Scene
-    func addLinewiseEmojiElements()
+    /*func addLinewiseEmojiElements()
     {
         let wait = SKAction.wait(forDuration:0.02)
         let action = SKAction.run {
@@ -245,7 +245,7 @@ public class MainScene: SKScene {
         
         run(SKAction.repeatForever(SKAction.sequence([wait, action])))
         
-    }
+    }*/
     
     //function to Create Random Emoji given a point
     func createRandomEmoji(at point: CGPoint) {
