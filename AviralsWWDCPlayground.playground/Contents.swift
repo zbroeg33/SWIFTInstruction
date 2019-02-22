@@ -804,7 +804,7 @@ extension MainScene: PlayButtonDelegate {
         //Changing Gravity to add the Initial Play Game button Click Animation when emoji drops.
         physicsWorld.gravity = CGVector.init(dx: 0, dy: -1)
         self.hideButton()
-        let wait = SKAction.wait(forDuration: 4)
+        let wait = SKAction.wait(forDuration: 0.1)
         let action = SKAction.run {
             self.enumerateChildNodes(withName: self.wwdcIconName) { (node, stop) in
                 let fadeOutAction = SKAction.fadeOut(withDuration: 0.25)
