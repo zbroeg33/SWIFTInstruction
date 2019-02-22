@@ -205,47 +205,7 @@ public class MainScene: SKScene {
         button.alpha = 0
         addChild(button)
         
-        
-        //addLinewiseEmojiElements()
-        
     }
-    
-    //Function to add Emojis in the Initial Scene
-    /*func addLinewiseEmojiElements()
-    {
-        let wait = SKAction.wait(forDuration:0.02)
-        let action = SKAction.run {
-            let point = CGPoint(x: self.lineWiseX, y: self.lineWiseY)
-            self.createRandomEmoji(at: point)
-            self.lineWiseX = self.lineWiseX + 30
-            
-            if (!self.jumpedAhead && self.lineWiseX > 150 && self.lineWiseY < (self.frame.midY + 100)){
-                self.lineWiseX = self.lineWiseX + 160
-                self.jumpedAhead = true
-            }
-            
-            if(self.lineWiseX >= self.frame.width + 50)
-            {
-                self.lineWiseX = 0
-                self.jumpedAhead = false
-                self.lineWiseY = self.lineWiseY + 30
-            }
-            if (self.lineWiseY >= self.frame.height)
-            {
-                self.removeAllActions()
-                self.enumerateChildNodes(withName: self.buttonNodeName) { (node, stop) in
-                    let fadeInAction = SKAction.fadeIn(withDuration: 0.1)
-                    fadeInAction.timingMode = .easeInEaseOut
-                    node.run(fadeInAction, completion: {
-                        node.alpha = 1
-                    })
-                }
-            }
-        }
-        
-        run(SKAction.repeatForever(SKAction.sequence([wait, action])))
-        
-    }*/
     
     //function to Create Random Emoji given a point
     func createRandomEmoji(at point: CGPoint) {
@@ -281,7 +241,7 @@ public class MainScene: SKScene {
         self.removeAllChildren()
         let background = SKSpriteNode(imageNamed: "halftone")
         background.name = "background"
-        background.setScale(1.5)
+        background.setScale(2)
         background.position = CGPoint(x: frame.midX, y: frame.midY)
         addChild(background)
         
