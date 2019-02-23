@@ -125,7 +125,7 @@ public class MainScene: SKScene {
         
         let background = SKSpriteNode(imageNamed: "halftone")
         background.name = "background"
-        background.setScale(1.5)
+        background.setScale(3.0)
         background.position = CGPoint(x: frame.midX, y: frame.midY)
         addChild(background)
         
