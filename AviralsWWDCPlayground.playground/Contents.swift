@@ -383,7 +383,7 @@ public class MainScene: SKScene {
                     }
                     else
                     {
-                        self.moveToNextRound()
+                        self.ThisIsADumbFunction()
                     }
                 }
                 else{
@@ -461,7 +461,7 @@ public class MainScene: SKScene {
     }
     
     //Function to show the Next Round Button
-    func moveToNextRound()
+    func ThisIsADumbFunction()
     {
         
         let namaste = SKLabelNode(fontNamed: "HelveticaNeue-Bold")
@@ -615,6 +615,8 @@ extension MainScene : TouchableSpriteTextNodeDelegate{
         let value = Int(sender.name ?? "0")
         scoreValue = scoreValue + (value ?? 0)
         self.score.text = "Score : \(scoreValue)"
+        
+        //TODO: Add an else if for when there's an emoji with a value of 5. Hint: Copying an existing statement is a great start! BONUS: If you get it to work, try adding an OR to also have it run for a 0 value.
         
         if value! > 0
         {
